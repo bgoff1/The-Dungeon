@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ChooseGender : MonoBehaviour {
+public class CharacterCreation : MonoBehaviour {
 
-	public GameObject nextPanel;
+	#region variables
+	public GameObject characterHUD;
+	public GameObject characterDisplay;
+	public GameObject input;
 	public Sprite maleSprite;
 	public Sprite femaleSprite;
 
 	private Button maleButton;
 	private Button femaleButton;
+	#endregion
+
 	void Start () {
 		registerButtons();
 	}
@@ -35,14 +40,31 @@ public class ChooseGender : MonoBehaviour {
 	private void setMaleCharacter()
 	{
 		GameObject.Find("Character").GetComponent<SpriteRenderer>().sprite = maleSprite;
-		gameObject.SetActive(false);
-		nextPanel.SetActive(true);
+		getCharacterName();
 	}
 
 	private void setFemaleCharacter()
 	{
 		GameObject.Find("Character").GetComponent<SpriteRenderer>().sprite = femaleSprite;
+		getCharacterName();
+	}
+
+	private void getCharacterName()
+	{
+		gameObject.GetComponentInChildren<Text>().text = "ENTER CHARACTER NAME";
+		Button[] buttons = gameObject.GetComponentsInChildren<Button>();
+		foreach(Button b in buttons) { b.gameObject.SetActive(false); }
+		input.SetActive(true);
+		input.GetComponentInChildren<Button>().onClick.AddListener(getName);
+	}
+
+	private void getName()
+	{
 		gameObject.SetActive(false);
-		nextPanel.SetActive(true);
+		characterDisplay.SetActive(true);
+		characterDisplay.GetComponentInChildren<Text>().text = input.GetComponent<InputField>().text.ToUpper();
+		characterHUD.SetActive(true);
+		Combat.startGame();
+		input.SetActive(false);
 	}
 }
