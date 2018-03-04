@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Combat : MonoBehaviour {
 
@@ -76,6 +77,16 @@ public class Combat : MonoBehaviour {
 	#endregion
 
 	private bool running = true;
+
+    #region Buttons
+    private Button topLeft;
+    private Button topRight;
+    private Button midLeft;
+    private Button midRight;
+    private Button bottomLeft;
+    private Button bottomRight;
+    #endregion
+
 	#endregion
 
 	void Start() {
@@ -120,8 +131,35 @@ public class Combat : MonoBehaviour {
 		}
 	}
 
-	public static void startGame()
-	{
-
-	}
+    // Awake is called when the GameObject it is attached to
+        // becomes active
+	void Awake()
+    {
+        // Do fight logic here:
+        Button[] buttons = gameObject.GetComponentsInChildren<Button>();
+        foreach (Button b in buttons)
+        {
+            switch (b.name)
+            {
+                case "TopLeft":
+                    topLeft = b;
+                    break;
+                case "TopRight":
+                    topRight = b;
+                    break;
+                case "MidLeft":
+                    midLeft = b;
+                    break;
+                case "MidRight":
+                    midRight = b;
+                    break;
+                case "BotLeft":
+                    midLeft = b;
+                    break;
+                case "BotRight":
+                    midRight = b;
+                    break;
+            }
+        }
+    }
 }

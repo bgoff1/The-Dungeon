@@ -64,7 +64,6 @@ public class CharacterCreation : MonoBehaviour {
 		characterDisplay.SetActive(true);
 		characterDisplay.GetComponentInChildren<Text>().text = input.GetComponent<InputField>().text.ToUpper();
 		characterHUD.SetActive(true);
-		Combat.startGame();
 		input.SetActive(false);
 	}
 }
