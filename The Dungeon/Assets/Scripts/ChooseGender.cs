@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class ChooseGender : MonoBehaviour {
 
 	public GameObject nextPanel;
+	public Sprite maleSprite;
+	public Sprite femaleSprite;
 
 	private Button maleButton;
 	private Button femaleButton;
@@ -32,12 +34,14 @@ public class ChooseGender : MonoBehaviour {
 
 	private void setMaleCharacter()
 	{
+		GameObject.Find("Character").GetComponent<SpriteRenderer>().sprite = maleSprite;
 		gameObject.SetActive(false);
 		nextPanel.SetActive(true);
 	}
 
 	private void setFemaleCharacter()
 	{
+		GameObject.Find("Character").GetComponent<SpriteRenderer>().sprite = femaleSprite;
 		gameObject.SetActive(false);
 		nextPanel.SetActive(true);
 	}
