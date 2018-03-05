@@ -283,7 +283,10 @@ public class Combat : MonoBehaviour {
 
     private void levelUp()
     {
-
+        experienceNeeded = experienceNeededMultiplier * (int)Mathf.Pow(2, level - 1);
+        playerExperience.value -= playerExperience.maxValue;
+        playerExperience.maxValue = experienceNeeded;
+        level++;
     }
 
     private void playerDeath()
