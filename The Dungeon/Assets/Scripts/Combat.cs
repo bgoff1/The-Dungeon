@@ -191,6 +191,7 @@ public class Combat : MonoBehaviour {
         }
         playerHealth.maxValue = maxHealth;
         playerHealth.value = playerHealth.maxValue;
+        experienceNeeded = experienceNeededMultiplier * (int)Mathf.Pow(2, level - 1);
         playerExperience.maxValue = experienceNeeded;
         playerExperience.value = 0;
         enemyHealth = enemyDisplay.GetComponentInChildren<Slider>();
@@ -283,7 +284,10 @@ public class Combat : MonoBehaviour {
 
     private void levelUp()
     {
-
+        experienceNeeded = experienceNeededMultiplier * (int)Mathf.Pow(2, level - 1);
+        playerExperience.maxValue = experienceNeeded;
+        playerExperience.value = 0;
+        level++;
     }
 
     private void playerDeath()
@@ -331,6 +335,7 @@ public class Combat : MonoBehaviour {
     {
         gameText.text = "";
         updatePotionCount();
+
         buttons[1].SetActive(false);
         bottomLeft.gameObject.SetActive(false);
         topLeft.GetComponentInChildren<Text>().text = "ATTACK";
@@ -339,9 +344,11 @@ public class Combat : MonoBehaviour {
         topRight.onClick.AddListener(drinkPotion);
         bottomRight.GetComponentInChildren<Text>().text = "RUN AWAY";
         bottomRight.onClick.AddListener(runAway);
+
         enemy.GetComponent<SpriteRenderer>().sprite = enemies[Random.Range(0, enemies.Length)];
         enemyDisplay.SetActive(true);
         enemyDisplay.GetComponentInChildren<Text>().text = enemy.GetComponent<SpriteRenderer>().sprite.name.ToUpper();
+
         updateSliders();
         enemyName = enemyDisplay.GetComponentInChildren<Text>().text;
     }
