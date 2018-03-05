@@ -8,6 +8,7 @@ public class Combat : MonoBehaviour {
 
 	#region Variables
 
+    private GameObject character;
 	#region GameVariables
 	private int monsterLevels = 0;
 	private int monstersDefeated = 0;
@@ -90,9 +91,9 @@ public class Combat : MonoBehaviour {
     #endregion
     public Text gameText;
     public Text potionCount;
+    public GameObject enemyDisplay;
     public GameObject loseScreen;
     public GameObject[] buttons;
-    public GameObject enemyDisplay;
 	#endregion
 
 	void Start() {
@@ -146,6 +147,7 @@ public class Combat : MonoBehaviour {
         setSliders();
         setText();
         enemy = GameObject.Find("Enemy");
+        character = GameObject.Find("Character");
         fight();
     }
 
@@ -239,6 +241,20 @@ public class Combat : MonoBehaviour {
         }
         if (enemyHealth.value < 1)
             enemyDefeated();
+        Invoke("characterDisappear", 0.05f);
+    }
+
+    private void characterDisappear()
+    {
+        enemy.SetActive(false);
+        character.SetActive(false);
+        Invoke("characterReappear", 0.05f);
+    }
+
+    private void characterReappear()
+    {
+        character.SetActive(true);
+        enemy.SetActive(true);
     }
 
     private void drinkPotion()
@@ -342,6 +358,11 @@ public class Combat : MonoBehaviour {
         topRight.onClick.AddListener(drinkPotion);
         bottomRight.GetComponentInChildren<Text>().text = "RUN AWAY";
         bottomRight.onClick.AddListener(runAway);
+        Invoke("spawnEnemy", 0.5f);
+    }
+
+    private void spawnEnemy()
+    {
         enemy.GetComponent<SpriteRenderer>().sprite = enemies[Random.Range(0, enemies.Length)];
         enemyDisplay.SetActive(true);
         enemyDisplay.GetComponentInChildren<Text>().text = enemy.GetComponent<SpriteRenderer>().sprite.name.ToUpper();
