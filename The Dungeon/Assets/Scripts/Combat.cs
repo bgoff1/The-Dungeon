@@ -87,6 +87,14 @@ public class Combat : MonoBehaviour {
     private Button bottomRight;
     #endregion
 
+    #region Sliders
+    private Slider playerHealth;
+    private Text playerHealthText;
+    private Slider playerExperience;
+    private Slider enemyHealth;
+    private Text enemyHealthText;
+    #endregion
+
 	#endregion
 
 	void Start() {
@@ -136,6 +144,12 @@ public class Combat : MonoBehaviour {
 	void Awake()
     {
         // Do fight logic here:
+        setButtons();
+        setSliders();
+    }
+
+    private void setButtons()
+    {
         Button[] buttons = gameObject.GetComponentsInChildren<Button>();
         foreach (Button b in buttons)
         {
@@ -161,5 +175,20 @@ public class Combat : MonoBehaviour {
                     break;
             }
         }
+    }
+
+    private void setSliders()
+    {
+        GameObject playerDisplay = GameObject.Find("PlayerDisplay");
+        Slider[] sliders = playerDisplay.GetComponentsInChildren<Slider>();
+        foreach (Slider s in sliders)
+        {
+            if (s.name == "HP Bar")
+                playerHealth = s;
+            else if (s.name == "XP Bar")
+                playerExperience = s;
+        }
+        GameObject enemyDisplay = GameObject.Find("EnemyDisplay");
+        enemyHealth = enemyDisplay.GetComponentInChildren<Slider>();
     }
 }
