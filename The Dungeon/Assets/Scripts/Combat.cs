@@ -89,6 +89,7 @@ public class Combat : MonoBehaviour {
     private Text enemyHealthText;
     #endregion
     public Text gameText;
+    public Text potionCount;
     public GameObject loseScreen;
     public GameObject[] buttons;
     public GameObject enemyDisplay;
@@ -232,6 +233,7 @@ public class Combat : MonoBehaviour {
         if (playerHealth.value < 1) {
             gameText.text = "You have taken too much damage, you are too weak to go on";
             gameText.text = gameText.text.ToUpper();
+            playerDeath();
         }
         if (enemyHealth.value < 1)
             enemyDefeated();
@@ -243,6 +245,7 @@ public class Combat : MonoBehaviour {
             playerHealth.value += healthPotionHealAmount;
             updateSliders();
             numHealthPotions--;
+            updatePotionCount();
         } else {
             gameText.text  = "You have no health potions, defeat enemies for a chance to get one";
             gameText.text = gameText.text.ToUpper();
@@ -266,6 +269,7 @@ public class Combat : MonoBehaviour {
             if (numHealthPotions == 1)
                 hpnum = "health potion";
             gameText.text += "\nYou now have " + numHealthPotions + " " + hpnum + "!";
+            updatePotionCount();
         }
         nextEnemy();
     }
@@ -284,6 +288,11 @@ public class Combat : MonoBehaviour {
             playerDeath();
         }
         playerHealthText.text = playerHealth.value.ToString() + "/" + playerHealth.maxValue.ToString();
+    }
+
+    private void updatePotionCount()
+    {
+        potionCount.text = "POTIONS: " + numHealthPotions;
     }
 
     private void nextEnemy()
@@ -309,6 +318,7 @@ public class Combat : MonoBehaviour {
     private void fight()
     {
         gameText.text = "";
+        updatePotionCount();
         buttons[1].SetActive(false);
         bottomLeft.gameObject.SetActive(false);
         topLeft.GetComponentInChildren<Text>().text = "ATTACK";
