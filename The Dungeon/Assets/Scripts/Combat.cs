@@ -146,6 +146,8 @@ public class Combat : MonoBehaviour {
         // Do fight logic here:
         setButtons();
         setSliders();
+        setText();
+        topLeft.onClick.AddListener(reducePlayerHealth);
     }
 
     private void setButtons()
@@ -179,7 +181,7 @@ public class Combat : MonoBehaviour {
 
     private void setSliders()
     {
-        GameObject playerDisplay = GameObject.Find("PlayerDisplay");
+        GameObject playerDisplay = GameObject.Find("Player Display");
         Slider[] sliders = playerDisplay.GetComponentsInChildren<Slider>();
         foreach (Slider s in sliders)
         {
@@ -188,7 +190,34 @@ public class Combat : MonoBehaviour {
             else if (s.name == "XP Bar")
                 playerExperience = s;
         }
-        GameObject enemyDisplay = GameObject.Find("EnemyDisplay");
-        enemyHealth = enemyDisplay.GetComponentInChildren<Slider>();
+        playerHealth.maxValue = maxHealth;
+        playerHealth.value = playerHealth.maxValue;
+        //GameObject enemyDisplay = GameObject.Find("Enemy Display");
+        //enemyHealth = enemyDisplay.GetComponentInChildren<Slider>();
+    }
+
+    private void setText()
+    {
+        Text[] texts = GameObject.Find("Player Display").GetComponentsInChildren<Text>();
+        playerHealthText = setHealthText(texts, playerHealthText);
+        //texts = GameObject.Find("Enemy Display").GetComponentsInChildren<Text>();
+        //enemyHealthText = setHealthText(texts, enemyHealthText);
+        playerHealthText.text = playerHealth.value.ToString() + "/" + playerHealth.maxValue.ToString();
+    }
+
+    private Text setHealthText(Text[] texts, Text textToSet)
+    {
+        foreach (Text t in texts)
+        {
+            if (t.name == "Text")
+                textToSet = t;
+        }
+        return textToSet;
+    }
+
+    private void reducePlayerHealth()
+    {
+        playerHealth.value--;
+        playerHealthText.text = playerHealth.value.ToString() + "/" + playerHealth.maxValue.ToString();
     }
 }
