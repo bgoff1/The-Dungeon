@@ -191,6 +191,8 @@ public class Combat : MonoBehaviour {
         }
         playerHealth.maxValue = maxHealth;
         playerHealth.value = playerHealth.maxValue;
+        playerExperience.maxValue = experienceNeeded;
+        playerExperience.value = 0;
         enemyHealth = enemyDisplay.GetComponentInChildren<Slider>();
         enemyHealth.maxValue = maxEnemyHealth;
         enemyHealth.value =  enemyHealth.maxValue;
@@ -260,7 +262,12 @@ public class Combat : MonoBehaviour {
 
     private void enemyDefeated()
     {
-        gameText.text = enemyName + " was defeated!";
+        gameText.text = enemyName + " was defeated! You gain " + maxEnemyExperience + " experience!";
+        playerExperience.value += maxEnemyExperience;
+        if(playerExperience.value == playerExperience.maxValue)
+        {
+            levelUp();
+        }
         if (Random.Range(0,100) < healthPotionDropChance) 
         {
             numHealthPotions++;
@@ -272,6 +279,11 @@ public class Combat : MonoBehaviour {
             updatePotionCount();
         }
         nextEnemy();
+    }
+
+    private void levelUp()
+    {
+
     }
 
     private void playerDeath()
