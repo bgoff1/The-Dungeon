@@ -15,7 +15,9 @@ public class Combat : MonoBehaviour {
 
 	private int itemInShop = 0;
 
-	static string[] enemies = { "Skeleton", "Zombie", "Goblin", "Orc", "Spectre" };
+	public Sprite[] enemies;
+    private GameObject enemy;
+    private string enemyName;
     private string[] bosses = { "Giant", "Ogre", "Vampire" };
     private int maxEnemyHealth = 50;
     private int enemyAttackDamage = 25;
@@ -32,7 +34,6 @@ public class Combat : MonoBehaviour {
     private int[] possibleArcherOptions = {1, 2, 3, 6, 8};
     private int[] possibleDruidOptions = {1, 2, 3, 8, 9};
 	#endregion
-
 	#region PlayerVariables
 	private int maxHealthPotions =5;
     private int maxHealth=100;
@@ -52,7 +53,6 @@ public class Combat : MonoBehaviour {
     private bool magicPendantOwned = false; //+5% crit chance
     private bool magicStaffOwned = false; //druid only - gets to choose 2 aspects
 	#endregion
-
 	#region DifficultyVariables
 	private int healthPotionHealAmount = 30;
     private int healthPotionDropChance = 35; //Percentage
@@ -62,7 +62,6 @@ public class Combat : MonoBehaviour {
     private int enemyDifficultyStandard = 10;
     private int experienceNeededMultiplier = 300;
 	#endregion
-
 	#region LevelingVariables
 	private int level = 1;
 	private int currentExperience = 0;
@@ -70,14 +69,10 @@ public class Combat : MonoBehaviour {
 	private int playerClass = 0;
 	private int dodgeBlockChance = 0;
 	#endregion
-
 	#region SpellVariables
 	private int maxSpellSlots = 0;
 	private int currentSpellSlots = 0;
 	#endregion
-
-	private bool running = true;
-
     #region Buttons
     private Button topLeft;
     private Button topRight;
@@ -86,7 +81,6 @@ public class Combat : MonoBehaviour {
     private Button bottomLeft;
     private Button bottomRight;
     #endregion
-
     #region Sliders
     private Slider playerHealth;
     private Text playerHealthText;
@@ -94,7 +88,10 @@ public class Combat : MonoBehaviour {
     private Slider enemyHealth;
     private Text enemyHealthText;
     #endregion
-
+    public Text gameText;
+    public GameObject loseScreen;
+    public GameObject[] buttons;
+    public GameObject enemyDisplay;
 	#endregion
 
 	void Start() {
@@ -147,13 +144,14 @@ public class Combat : MonoBehaviour {
         setButtons();
         setSliders();
         setText();
-        topLeft.onClick.AddListener(reducePlayerHealth);
+        enemy = GameObject.Find("Enemy");
+        fight();
     }
 
     private void setButtons()
     {
-        Button[] buttons = gameObject.GetComponentsInChildren<Button>();
-        foreach (Button b in buttons)
+        Button[] Buttons = gameObject.GetComponentsInChildren<Button>();
+        foreach (Button b in Buttons)
         {
             switch (b.name)
             {
@@ -169,11 +167,11 @@ public class Combat : MonoBehaviour {
                 case "MidRight":
                     midRight = b;
                     break;
-                case "BotLeft":
-                    midLeft = b;
+                case "BottomLeft":
+                    bottomLeft = b;
                     break;
-                case "BotRight":
-                    midRight = b;
+                case "BottomRight":
+                    bottomRight = b;
                     break;
             }
         }
@@ -192,16 +190,17 @@ public class Combat : MonoBehaviour {
         }
         playerHealth.maxValue = maxHealth;
         playerHealth.value = playerHealth.maxValue;
-        //GameObject enemyDisplay = GameObject.Find("Enemy Display");
-        //enemyHealth = enemyDisplay.GetComponentInChildren<Slider>();
+        enemyHealth = enemyDisplay.GetComponentInChildren<Slider>();
+        enemyHealth.maxValue = maxEnemyHealth;
+        enemyHealth.value =  enemyHealth.maxValue;
     }
 
     private void setText()
     {
         Text[] texts = GameObject.Find("Player Display").GetComponentsInChildren<Text>();
         playerHealthText = setHealthText(texts, playerHealthText);
-        //texts = GameObject.Find("Enemy Display").GetComponentsInChildren<Text>();
-        //enemyHealthText = setHealthText(texts, enemyHealthText);
+        texts = enemyDisplay.GetComponentsInChildren<Text>();
+        enemyHealthText = setHealthText(texts, enemyHealthText);
         playerHealthText.text = playerHealth.value.ToString() + "/" + playerHealth.maxValue.ToString();
     }
 
@@ -215,9 +214,113 @@ public class Combat : MonoBehaviour {
         return textToSet;
     }
 
+    private void updateSliders()
+    {
+        playerHealthText.text = playerHealth.value.ToString() + "/" + playerHealth.maxValue.ToString();
+        enemyHealthText.text  = enemyHealth.value.ToString() + "/" + enemyHealth.maxValue.ToString();
+    }
+
+    private void attack()
+    {
+        int damageDealt = Random.Range(0, attackDamage);
+		int damageTaken = Random.Range(0, enemyAttackDamage);
+
+		enemyHealth.value -= damageDealt;
+		playerHealth.value -= damageTaken;
+        updateSliders();
+
+        if (playerHealth.value < 1) {
+            gameText.text = "You have taken too much damage, you are too weak to go on";
+            gameText.text = gameText.text.ToUpper();
+        }
+        if (enemyHealth.value < 1)
+            enemyDefeated();
+    }
+
+    private void drinkPotion()
+    {
+        if (numHealthPotions > 0) {
+            playerHealth.value += healthPotionHealAmount;
+            updateSliders();
+            numHealthPotions--;
+        } else {
+            gameText.text  = "You have no health potions, defeat enemies for a chance to get one";
+            gameText.text = gameText.text.ToUpper();
+        }
+    }
+
+    private void runAway()
+    {
+        gameText.text = "You run away from the " + enemyName + ".";
+        gameText.text = gameText.text.ToUpper();
+    }
+
+    private void enemyDefeated()
+    {
+        gameText.text = enemyName + " was defeated!";
+        if (Random.Range(0,100) < healthPotionDropChance) 
+        {
+            numHealthPotions++;
+            gameText.text += "\nThe " + enemyName + " dropped a health potion!";
+            string hpnum = "health potions";;
+            if (numHealthPotions == 1)
+                hpnum = "health potion";
+            gameText.text += "\nYou now have " + numHealthPotions + " " + hpnum + "!";
+        }
+        nextEnemy();
+    }
+
+    private void playerDeath()
+    {
+        gameText.text = "You limp out of the dungeon, weak from battle.";
+        loseScreen.SetActive(true);
+    }
+
     private void reducePlayerHealth()
     {
-        playerHealth.value--;
+        playerHealth.value -= 5;
+        if (playerHealth.value < 1)
+        {
+            playerDeath();
+        }
         playerHealthText.text = playerHealth.value.ToString() + "/" + playerHealth.maxValue.ToString();
+    }
+
+    private void nextEnemy()
+    {
+        buttons[0].SetActive(false);
+        bottomRight.gameObject.SetActive(false);
+        bottomLeft.gameObject.SetActive(true);
+        bottomLeft.GetComponentInChildren<Text>().text = "CONTINUE";
+        bottomLeft.onClick.AddListener(spawnNewEnemy);
+    }
+
+    private void spawnNewEnemy()
+    {
+        enemy.GetComponent<SpriteRenderer>().sprite = enemies[Random.Range(0, enemies.Length)];
+        enemyDisplay.GetComponentInChildren<Text>().text = enemy.GetComponent<SpriteRenderer>().sprite.name.ToUpper();
+        enemyHealth.value = enemyHealth.maxValue;
+        updateSliders(); 
+        buttons[0].SetActive(true);
+        bottomRight.gameObject.SetActive(true);
+        bottomLeft.gameObject.SetActive(false);
+    }
+
+    private void fight()
+    {
+        gameText.text = "";
+        buttons[1].SetActive(false);
+        bottomLeft.gameObject.SetActive(false);
+        topLeft.GetComponentInChildren<Text>().text = "ATTACK";
+        topLeft.onClick.AddListener(attack);
+        topRight.GetComponentInChildren<Text>().text = "DRINK POTION";
+        topRight.onClick.AddListener(drinkPotion);
+        bottomRight.GetComponentInChildren<Text>().text = "RUN AWAY";
+        bottomRight.onClick.AddListener(runAway);
+        enemy.GetComponent<SpriteRenderer>().sprite = enemies[Random.Range(0, enemies.Length)];
+        enemyDisplay.SetActive(true);
+        enemyDisplay.GetComponentInChildren<Text>().text = enemy.GetComponent<SpriteRenderer>().sprite.name.ToUpper();
+        updateSliders();
+        enemyName = enemyDisplay.GetComponentInChildren<Text>().text;
     }
 }
