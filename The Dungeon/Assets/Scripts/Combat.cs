@@ -191,7 +191,7 @@ public class Combat : MonoBehaviour {
         }
         playerHealth.maxValue = maxHealth;
         playerHealth.value = playerHealth.maxValue;
-        playerExperience.maxValue = experienceNeededMultiplier;
+        playerExperience.maxValue = experienceNeeded;
         playerExperience.value = 0;
         enemyHealth = enemyDisplay.GetComponentInChildren<Slider>();
         enemyHealth.maxValue = maxEnemyHealth;
@@ -221,12 +221,6 @@ public class Combat : MonoBehaviour {
     {
         playerHealthText.text = playerHealth.value.ToString() + "/" + playerHealth.maxValue.ToString();
         enemyHealthText.text  = enemyHealth.value.ToString() + "/" + enemyHealth.maxValue.ToString();
-    }
-
-    private void updateExpBar()
-    {
-        playerExperience.value -= playerExperience.maxValue;
-        playerExperience.maxValue = experienceNeededMultiplier*level;
     }
 
     private void attack()
@@ -273,13 +267,12 @@ public class Combat : MonoBehaviour {
         if(playerExperience.value == playerExperience.maxValue)
         {
             levelUp();
-            updateExpBar();
         }
         if (Random.Range(0,100) < healthPotionDropChance) 
         {
             numHealthPotions++;
             gameText.text += "\nThe " + enemyName + " dropped a health potion!";
-            string hpnum = "health potions";
+            string hpnum = "health potions";;
             if (numHealthPotions == 1)
                 hpnum = "health potion";
             gameText.text += "\nYou now have " + numHealthPotions + " " + hpnum + "!";
@@ -290,7 +283,7 @@ public class Combat : MonoBehaviour {
 
     private void levelUp()
     {
-        level++;
+
     }
 
     private void playerDeath()
@@ -328,7 +321,6 @@ public class Combat : MonoBehaviour {
         enemy.GetComponent<SpriteRenderer>().sprite = enemies[Random.Range(0, enemies.Length)];
         enemyDisplay.GetComponentInChildren<Text>().text = enemy.GetComponent<SpriteRenderer>().sprite.name.ToUpper();
         enemyHealth.value = enemyHealth.maxValue;
-        enemyName = enemyDisplay.GetComponentInChildren<Text>().text;
         updateSliders(); 
         buttons[0].SetActive(true);
         bottomRight.gameObject.SetActive(true);
