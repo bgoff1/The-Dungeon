@@ -191,7 +191,7 @@ public class Combat : MonoBehaviour {
         }
         playerHealth.maxValue = maxHealth;
         playerHealth.value = playerHealth.maxValue;
-        playerExperience.maxValue = experienceNeeded;
+        playerExperience.maxValue = experienceNeededMultiplier;
         playerExperience.value = 0;
         enemyHealth = enemyDisplay.GetComponentInChildren<Slider>();
         enemyHealth.maxValue = maxEnemyHealth;
@@ -283,8 +283,8 @@ public class Combat : MonoBehaviour {
 
     private void levelUp()
     {
-        experienceNeeded = experienceNeededMultiplier * (int)Mathf.Pow(2, level - 1);
         playerExperience.value -= playerExperience.maxValue;
+        experienceNeeded = experienceNeededMultiplier * (int)Mathf.Pow(2, level - 1);
         playerExperience.maxValue = experienceNeeded;
         level++;
     }
