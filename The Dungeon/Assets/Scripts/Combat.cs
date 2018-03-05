@@ -274,6 +274,9 @@ public class Combat : MonoBehaviour {
     {
         gameText.text = "You run away from the " + enemyName + ".";
         gameText.text = gameText.text.ToUpper();
+
+        //should there be a variable that dictates the % chance you have to actually escape??
+        nextEnemy();
     }
 
     private void enemyDefeated()
@@ -303,6 +306,16 @@ public class Combat : MonoBehaviour {
         experienceNeeded = experienceNeededMultiplier * (int)Mathf.Pow(2, level - 1);
         playerExperience.maxValue = experienceNeeded;
         level++;
+        gameText.text += "\nYou leveled up to level " + level + "!";
+        attackDamage += attackMedium;
+        gameText.text += "\nYou gained " + attackMedium + " attack damage - you now have " + attackDamage + "!";
+        maxHealth += healthMedium;
+        gameText.text += "\nYou gained " + healthMedium + " health - you now have " + maxHealth + "!";
+        healthPotionHealAmount += potionGainStandard;
+        gameText.text += "\nYour health potions heal for " + potionGainStandard + " more - they now heal for " + healthPotionHealAmount + "!";
+
+        playerHealth.maxValue = maxHealth;
+        playerHealth.value = playerHealth.maxValue;
     }
 
     private void playerDeath()
@@ -340,6 +353,7 @@ public class Combat : MonoBehaviour {
         enemy.GetComponent<SpriteRenderer>().sprite = enemies[Random.Range(0, enemies.Length)];
         enemyDisplay.GetComponentInChildren<Text>().text = enemy.GetComponent<SpriteRenderer>().sprite.name.ToUpper();
         enemyHealth.value = enemyHealth.maxValue;
+        enemyName = enemyDisplay.GetComponentInChildren<Text>().text;
         updateSliders(); 
         buttons[0].SetActive(true);
         bottomRight.gameObject.SetActive(true);
