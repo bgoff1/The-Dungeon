@@ -227,6 +227,7 @@ public class Combat : MonoBehaviour {
 
     private void attack()
     {
+        
         int damageDealt = Random.Range(0, attackDamage);
 		int damageTaken = Random.Range(0, enemyAttackDamage);
 
@@ -243,6 +244,22 @@ public class Combat : MonoBehaviour {
             enemyDefeated();
         Invoke("characterDisappear", 0.05f);
     }
+
+    //public static double NextGaussianDouble(this Random r)
+    //{
+    //    double u, v, S;
+
+    //    do
+    //    {
+    //        u = 2.0 * Random.value - 1.0;
+    //        v = 2.0 * Random.value - 1.0;
+    //        S = u * u + v * v;
+    //    }
+    //    while (S >= 1.0);
+
+    //    double fac = Math.Sqrt(-2.0 * Math.Log(S) / S);
+    //    return u * fac;
+    //}
 
     private void characterDisappear()
     {
@@ -306,16 +323,28 @@ public class Combat : MonoBehaviour {
         experienceNeeded = experienceNeededMultiplier * (int)Mathf.Pow(2, level - 1);
         playerExperience.maxValue = experienceNeeded;
         level++;
+
+        updateStats();
+        updateSliders();
         gameText.text += "\nYou leveled up to level " + level + "!";
-        attackDamage += attackMedium;
         gameText.text += "\nYou gained " + attackMedium + " attack damage - you now have " + attackDamage + "!";
-        maxHealth += healthMedium;
         gameText.text += "\nYou gained " + healthMedium + " health - you now have " + maxHealth + "!";
-        healthPotionHealAmount += potionGainStandard;
         gameText.text += "\nYour health potions heal for " + potionGainStandard + " more - they now heal for " + healthPotionHealAmount + "!";
 
+        
+    }
+
+    private void updateStats()
+    {
+        attackDamage += attackMedium;
+        maxHealth += healthMedium;
+        healthPotionHealAmount += potionGainStandard;
         playerHealth.maxValue = maxHealth;
         playerHealth.value = playerHealth.maxValue;
+
+        enemyAttackDamage += enemyDifficultyStandard;
+        maxEnemyHealth += enemyDifficultyStandard;
+        enemyHealth.maxValue = maxEnemyHealth;
     }
 
     private void playerDeath()
