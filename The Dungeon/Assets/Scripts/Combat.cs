@@ -16,7 +16,7 @@ public class Combat : MonoBehaviour {
 
 	private int itemInShop = 0;
 
-	public Sprite[] enemies;
+	private Sprite[] enemies;
     private GameObject enemy;
     private string enemyName;
     private string[] bosses = { "Giant", "Ogre", "Vampire" };
@@ -143,6 +143,7 @@ public class Combat : MonoBehaviour {
 	void Awake()
     {
         // Do fight logic here:
+        setupMonsters();
         setButtons();
         setSliders();
         setText();
@@ -217,6 +218,16 @@ public class Combat : MonoBehaviour {
                 textToSet = t;
         }
         return textToSet;
+    }
+
+    private void setupMonsters()
+    {
+        Object[] monsters  = Resources.LoadAll("Images/Monsters", typeof(Sprite));
+        enemies = new Sprite[monsters.Length];
+        for (int i = 0; i < monsters.Length; i++)
+        {
+            enemies[i] = (Sprite)monsters[i];
+        }
     }
 
     private void updateSliders()
@@ -351,6 +362,11 @@ public class Combat : MonoBehaviour {
     {
         gameText.text = "You limp out of the dungeon, weak from battle.";
         loseScreen.SetActive(true);
+        Button[] allButtons = gameObject.GetComponentsInChildren<Button>();
+        foreach (Button b in allButtons)
+        {
+            b.interactable = false;
+        }
     }
 
     private void reducePlayerHealth()
