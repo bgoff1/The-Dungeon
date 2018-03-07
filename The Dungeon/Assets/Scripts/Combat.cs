@@ -291,7 +291,17 @@ public class Combat : MonoBehaviour {
         int damageDealt = Random.Range(0, attackDamage);
 		int damageTaken = Random.Range(0, enemyAttackDamage);
 
+        if(Random.Range(0,100)<critChance)
+        {
+            damageDealt *= 2;
+            gameText.text = "\nYou crit for double damage!";
+        }
 		enemyHealth.value -= damageDealt;
+        if(Random.Range(0,100)<dodgeBlockChance)
+        {
+            damageTaken = 0;
+            gameText.text = "\nYou dodge out of the way of the " + enemy.name + "'s attack!";
+        }
 		playerHealth.value -= damageTaken;
         updateSliders();
 
