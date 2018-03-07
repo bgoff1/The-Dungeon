@@ -14,7 +14,7 @@ public class Combat : MonoBehaviour {
     public Sprite peasantSprite;
     public Sprite khalifateSprite;
 
-    Sprite charSprite = GameObject.Find("Character").GetComponent<SpriteRenderer>().sprite;
+    
 
     private GameObject character;
 	#region GameVariables
@@ -111,6 +111,7 @@ public class Combat : MonoBehaviour {
         // becomes active
 	void Awake()
     {
+        Sprite charSprite = GameObject.Find("Character").GetComponent<SpriteRenderer>().sprite;
         enemy = GameObject.Find("Enemy");
         character = GameObject.Find("Character");
 
