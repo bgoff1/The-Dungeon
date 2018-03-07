@@ -388,7 +388,16 @@ public class Combat : MonoBehaviour {
         gameText.text += "\nYou gained " + healthMedium + " health - you now have " + maxHealth + "!";
         gameText.text += "\nYour health potions heal for " + potionGainStandard + " more - they now heal for " + healthPotionHealAmount + "!";
 
+        if(level == 3)
+        {
+            chooseClass();
+        }
         
+    }
+
+    private void chooseClass()
+    {
+
     }
 
     private void updateStats()
