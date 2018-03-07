@@ -45,6 +45,8 @@ public class Combat : MonoBehaviour {
     private int playerGold = 50;
     private int escapeRopes = 0;
     private int critChance = 5; //percent
+    private int runAwayChance = 50; //percent
+    private bool alreadyRanAway = false;
     private bool magicWeaponOwned = false; //+10% damage
     private bool magicArmorOwned = false; //-10% damage taken
     private bool magicCloakOwned = false; //+10% dodge chance
@@ -103,12 +105,15 @@ public class Combat : MonoBehaviour {
     {
         // Do fight logic here:
         setupDifficulty();
+        
         setupMonsters();
         setButtons();
         setSliders();
         setText();
+        
         enemy = GameObject.Find("Enemy");
         character = GameObject.Find("Character");
+        setupRace();
         fight();
     }
 
@@ -226,12 +231,43 @@ public class Combat : MonoBehaviour {
 
     private void setupMonsters()
     {
-        Object[] monsters  = Resources.LoadAll("Images/Monsters", typeof(Sprite));
+        Object[] monsters = Resources.LoadAll("Images/Monsters", typeof(Sprite));
         enemies = new Sprite[monsters.Length];
         for (int i = 0; i < monsters.Length; i++)
         {
             enemies[i] = (Sprite)monsters[i];
         }
+    }
+
+    private void setupRace()
+    {
+        switch (character.GetComponent<SpriteRenderer>().sprite.name)
+        {
+            case "Dwarf Sprite":
+                healthMedium += 5;
+                maxHealth += 50;
+                break;
+            case "Elf Sprite":
+                dodgeBlockChance += 5;
+                runAwayChance += 25;
+                break;
+            case "Peasant Sprite":
+                healthMedium += 2;
+                maxHealth += 25;
+                attackMedium += 1;
+                attackDamage += 5;
+                break;
+            case "Ruffian Sprite":
+                attackMedium += 2;
+                attackDamage += 10;
+                playerGold *= 2;
+                break;
+            case "Khalifate Sprite":
+                attackMedium += 5;
+                attackDamage += 20;
+                break;
+        }
+
     }
 
     private void updateSliders()
@@ -304,11 +340,20 @@ public class Combat : MonoBehaviour {
 
     private void runAway()
     {
-        gameText.text = "You run away from the " + enemyName + ".";
-        gameText.text = gameText.text.ToUpper();
+        if (Random.Range(0, 100) > runAwayChance && !alreadyRanAway) //should there be a variable that dictates the % chance you have to actually escape??
+        {
+            gameText.text = "You run away from the " + enemyName + ".";
+            gameText.text = gameText.text.ToUpper();
 
-        //should there be a variable that dictates the % chance you have to actually escape??
-        nextEnemy();
+            
+            nextEnemy();
+        }
+        else
+        {
+            gameText.text = "You can't get away!";
+            gameText.text = gameText.text.ToUpper();
+            alreadyRanAway = true;
+        }
     }
 
     // TODO: 
@@ -316,6 +361,7 @@ public class Combat : MonoBehaviour {
         // it gives too much experience.
     private void enemyDefeated()
     {
+        alreadyRanAway = false;
         topLeft.interactable = false;
         topRight.interactable = false;
         bottomRight.interactable = false;
