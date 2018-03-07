@@ -97,7 +97,22 @@ public class Combat : MonoBehaviour {
     public GameObject[] buttons;
 	#endregion
 
-	void Start() {
+    // Awake is called when the GameObject it is attached to
+        // becomes active
+	void Awake()
+    {
+        // Do fight logic here:
+        setupDifficulty();
+        setupMonsters();
+        setButtons();
+        setSliders();
+        setText();
+        enemy = GameObject.Find("Enemy");
+        character = GameObject.Find("Character");
+        fight();
+    }
+
+    private void setupDifficulty() {
 		switch (SceneManager.GetActiveScene().name)
 		{
 			case "SandboxGame":
@@ -138,20 +153,6 @@ public class Combat : MonoBehaviour {
                 break;
 		}
 	}
-
-    // Awake is called when the GameObject it is attached to
-        // becomes active
-	void Awake()
-    {
-        // Do fight logic here:
-        setupMonsters();
-        setButtons();
-        setSliders();
-        setText();
-        enemy = GameObject.Find("Enemy");
-        character = GameObject.Find("Character");
-        fight();
-    }
 
     private void setButtons()
     {
@@ -195,7 +196,9 @@ public class Combat : MonoBehaviour {
         }
         playerHealth.maxValue = maxHealth;
         playerHealth.value = playerHealth.maxValue;
-        playerExperience.maxValue = experienceNeededMultiplier;
+        int factor = (int)Mathf.Pow(2, level - 1);
+        experienceNeeded = experienceNeededMultiplier * factor;
+        playerExperience.maxValue = experienceNeeded;
         playerExperience.value = 0;
         enemyHealth = enemyDisplay.GetComponentInChildren<Slider>();
         enemyHealth.maxValue = maxEnemyHealth;
@@ -350,7 +353,7 @@ public class Combat : MonoBehaviour {
     private void addExperience()
     {
         playerExperience.value++;
-        if (playerExperience.value == totalXP)
+        if (playerExperience.value == totalXP || playerExperience.value == playerExperience.maxValue)
         {
             CancelInvoke("addExperience");
         }
@@ -358,10 +361,25 @@ public class Combat : MonoBehaviour {
 
     private void levelUp()
     {
-        playerExperience.value -= playerExperience.maxValue;
-        experienceNeeded = experienceNeededMultiplier * (int)Mathf.Pow(2, level - 1);
-        playerExperience.maxValue = experienceNeeded;
         level++;
+        // determines if there is any excess/rollover xp
+        if (playerExperience.value != totalXP)
+        {
+            totalXP = totalXP - playerExperience.value;
+        }
+        else
+        { 
+            totalXP = 0;
+        }
+
+        // resets xp bar
+        playerExperience.value -= playerExperience.maxValue;
+        // increments xp cap
+        int factor = (int)Mathf.Pow(2, level - 1);
+        experienceNeeded = experienceNeededMultiplier * factor;
+        playerExperience.maxValue = experienceNeeded;
+        // adds rollover xp
+        InvokeRepeating("addExperience", 0f, 0.01f);
 
         updateStats();
         updateSliders();
