@@ -26,6 +26,7 @@ public class Combat : MonoBehaviour {
     private bool enemyIsBoss = false;
         
     private int experienceNeeded;
+    private float totalXP;
         
 	//options: 1 - weapon, 2-armor, 3-cloak, 4-dagger,
 	        // 5-Spellbook, 6-bow, 7-shield, 8-druidic amulet
@@ -307,11 +308,29 @@ public class Combat : MonoBehaviour {
         nextEnemy();
     }
 
+    // TODO: 
+        // Fix bug where if youre going to level up and will gain more experience than needed
+        // it gives too much experience.
     private void enemyDefeated()
     {
+        topLeft.interactable = false;
+        topRight.interactable = false;
+        bottomRight.interactable = false;
         gameText.text = enemyName + " was defeated! You gain " + maxEnemyExperience + " experience!";
-        playerExperience.value += maxEnemyExperience;
-        if(playerExperience.value == playerExperience.maxValue)
+        totalXP = playerExperience.value + maxEnemyExperience;
+        float timeDelay = 0.01f;
+        InvokeRepeating("addExperience", 0f, timeDelay);
+        if (!IsInvoking("addExperience"))
+        {
+            enemyDefeated2();
+        }
+        else
+            Invoke("enemyDefeated2", timeDelay * maxEnemyExperience);
+    }
+
+    private void enemyDefeated2() // needs new name
+    {
+        if (playerExperience.value == playerExperience.maxValue)
         {
             levelUp();
         }
@@ -319,13 +338,22 @@ public class Combat : MonoBehaviour {
         {
             numHealthPotions++;
             gameText.text += "\nThe " + enemyName + " dropped a health potion!";
-            string hpnum = "health potions";;
+            string hpnum = "health potions";
             if (numHealthPotions == 1)
                 hpnum = "health potion";
             gameText.text += "\nYou now have " + numHealthPotions + " " + hpnum + "!";
             updatePotionCount();
         }
         nextEnemy();
+    }
+
+    private void addExperience()
+    {
+        playerExperience.value++;
+        if (playerExperience.value == totalXP)
+        {
+            CancelInvoke("addExperience");
+        }
     }
 
     private void levelUp()
@@ -403,6 +431,9 @@ public class Combat : MonoBehaviour {
         buttons[0].SetActive(true);
         bottomRight.gameObject.SetActive(true);
         bottomLeft.gameObject.SetActive(false);
+        topLeft.interactable = true;
+        topRight.interactable = true;
+        bottomRight.interactable = true;
     }
 
     private void fight()
