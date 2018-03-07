@@ -8,13 +8,12 @@ public class Combat : MonoBehaviour {
 
     #region Variables
 
-    public Sprite dwarfSprite;
-    public Sprite elfSprite;
-    public Sprite ruffianSprite;
-    public Sprite peasantSprite;
-    public Sprite khalifateSprite;
-
-    
+    private Sprite dwarfSprite;
+    private Sprite elfSprite;
+    private Sprite ruffianSprite;
+    private Sprite peasantSprite;
+    private Sprite khalifateSprite;
+    private Sprite charSprite;
 
     private GameObject character;
 	#region GameVariables
@@ -111,18 +110,18 @@ public class Combat : MonoBehaviour {
         // becomes active
 	void Awake()
     {
-        Sprite charSprite = GameObject.Find("Character").GetComponent<SpriteRenderer>().sprite;
+        charSprite = GameObject.Find("Character").GetComponent<SpriteRenderer>().sprite;
         enemy = GameObject.Find("Enemy");
         character = GameObject.Find("Character");
 
         // Do fight logic here:
         setupDifficulty();
+        setSprites();
         setupRace();
         setupMonsters();
         setButtons();
         setSliders();
         setText();
-        
         
         fight();
     }
@@ -168,6 +167,15 @@ public class Combat : MonoBehaviour {
                 break;
 		}
 	}
+
+    private void setSprites()
+    {
+        dwarfSprite = (Sprite)Resources.Load("Images/Upgradable PC/Dwarves/Dwarvish Fighter", typeof(Sprite));
+        elfSprite = (Sprite)Resources.Load("Images/Upgradable PC/Elves/Elvish Fighter", typeof(Sprite));
+        peasantSprite = (Sprite)Resources.Load("Images/Upgradable PC/Humans/Peasant", typeof(Sprite));
+        ruffianSprite = (Sprite)Resources.Load("Images/Upgradable PC/Humans/Ruffian", typeof(Sprite));
+        khalifateSprite = (Sprite)Resources.Load("Images/Upgradable PC/Khalifate/Arif", typeof(Sprite));
+    }
 
     private void setButtons()
     {

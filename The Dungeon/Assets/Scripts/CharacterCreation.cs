@@ -10,11 +10,11 @@ public class CharacterCreation : MonoBehaviour {
 	public GameObject characterDisplay;
 	public GameObject input;
 
-    public Sprite dwarfSprite;
-    public Sprite elfSprite;
-    public Sprite peasantSprite;
-    public Sprite ruffianSprite;
-    public Sprite khalifateSprite;
+    private Sprite dwarfSprite;
+    private Sprite elfSprite;
+    private Sprite peasantSprite;
+    private Sprite ruffianSprite;
+    private Sprite khalifateSprite;
 
     private Button dwarfButton;
 	private Button elfButton;
@@ -61,29 +61,34 @@ public class CharacterCreation : MonoBehaviour {
 
     private void setDwarfCharacter()
 	{
+        dwarfSprite = (Sprite)Resources.Load("Images/Upgradable PC/Dwarves/Dwarvish Fighter", typeof(Sprite));
 		GameObject.Find("Character").GetComponent<SpriteRenderer>().sprite = dwarfSprite;
 		getCharacterName();
 	}
 
     private void setElfCharacter()
     {
+        elfSprite = (Sprite)Resources.Load("Images/Upgradable PC/Elves/Elvish Fighter", typeof(Sprite));
         GameObject.Find("Character").GetComponent<SpriteRenderer>().sprite = elfSprite;
         getCharacterName();
     }
 
     private void setHumanPeasantCharacter()
     {
+        peasantSprite = (Sprite)Resources.Load("Images/Upgradable PC/Humans/Peasant", typeof(Sprite));
         GameObject.Find("Character").GetComponent<SpriteRenderer>().sprite = peasantSprite; 
         getCharacterName();
     }
 
     private void setHumanRuffianCharacter()
     {
+        ruffianSprite = (Sprite)Resources.Load("Images/Upgradable PC/Humans/Ruffian", typeof(Sprite));
         GameObject.Find("Character").GetComponent<SpriteRenderer>().sprite = ruffianSprite;
         getCharacterName();
     }
     private void setKhalifateCharacter()
     {
+        khalifateSprite = (Sprite)Resources.Load("Images/Upgradable PC/Khalifate/Arif", typeof(Sprite));
         GameObject.Find("Character").GetComponent<SpriteRenderer>().sprite = khalifateSprite;
         getCharacterName();
     }
