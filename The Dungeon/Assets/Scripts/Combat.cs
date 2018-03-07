@@ -6,7 +6,13 @@ using UnityEngine.UI;
 
 public class Combat : MonoBehaviour {
 
-	#region Variables
+    #region Variables
+
+    public Sprite dwarfSprite;
+    public Sprite elfSprite;
+    public Sprite ruffianSprite;
+    public Sprite peasantSprite;
+    public Sprite khalifateSprite;
 
     private GameObject character;
 	#region GameVariables
@@ -103,17 +109,18 @@ public class Combat : MonoBehaviour {
         // becomes active
 	void Awake()
     {
+        enemy = GameObject.Find("Enemy");
+        character = GameObject.Find("Character");
+
         // Do fight logic here:
         setupDifficulty();
-        
+        setupRace();
         setupMonsters();
         setButtons();
         setSliders();
         setText();
         
-        enemy = GameObject.Find("Enemy");
-        character = GameObject.Find("Character");
-        setupRace();
+        
         fight();
     }
 
@@ -241,31 +248,33 @@ public class Combat : MonoBehaviour {
 
     private void setupRace()
     {
-        switch (character.GetComponent<SpriteRenderer>().sprite.name)
+        Sprite charSprite = GameObject.Find("Character").GetComponent<SpriteRenderer>().sprite;
+        if (charSprite == dwarfSprite) {
+            healthMedium += 5;
+            maxHealth += 50;
+        }
+        else if(charSprite == elfSprite)
         {
-            case "Dwarf Sprite":
-                healthMedium += 5;
-                maxHealth += 50;
-                break;
-            case "Elf Sprite":
-                dodgeBlockChance += 5;
-                runAwayChance += 25;
-                break;
-            case "Peasant Sprite":
-                healthMedium += 2;
-                maxHealth += 25;
-                attackMedium += 1;
-                attackDamage += 5;
-                break;
-            case "Ruffian Sprite":
-                attackMedium += 2;
-                attackDamage += 10;
-                playerGold *= 2;
-                break;
-            case "Khalifate Sprite":
-                attackMedium += 5;
-                attackDamage += 20;
-                break;
+            dodgeBlockChance += 5;
+            runAwayChance += 25;
+        }
+        else if(charSprite == peasantSprite)
+        {
+            healthMedium += 2;
+            maxHealth += 25;
+            attackMedium += 1;
+            attackDamage += 5;
+        }
+        else if(charSprite == ruffianSprite)
+        {
+            attackMedium += 2;
+            attackDamage += 10;
+            playerGold *= 2;
+        }
+        else if(charSprite == khalifateSprite)
+        {
+            attackMedium += 5;
+            attackDamage += 20;
         }
 
     }

@@ -10,8 +10,6 @@ public class CharacterCreation : MonoBehaviour {
 	public GameObject characterDisplay;
 	public GameObject input;
 
-	public Sprite maleSprite;
-	public Sprite femaleSprite;
     public Sprite dwarfSprite;
     public Sprite elfSprite;
     public Sprite peasantSprite;
