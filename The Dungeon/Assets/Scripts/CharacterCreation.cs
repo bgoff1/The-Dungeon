@@ -9,11 +9,20 @@ public class CharacterCreation : MonoBehaviour {
 	public GameObject characterHUD;
 	public GameObject characterDisplay;
 	public GameObject input;
+
 	public Sprite maleSprite;
 	public Sprite femaleSprite;
+    public Sprite dwarfSprite;
+    public Sprite elfSprite;
+    public Sprite peasantSprite;
+    public Sprite ruffianSprite;
+    public Sprite khalifateSprite;
 
-	private Button maleButton;
-	private Button femaleButton;
+    private Button dwarfButton;
+	private Button elfButton;
+    private Button humanPeasantButton;
+    private Button humanRuffianButton;
+    private Button khalifateButton;
 	#endregion
 
 	void Start () {
@@ -24,32 +33,64 @@ public class CharacterCreation : MonoBehaviour {
 	{
 		Button[] buttons = gameObject.GetComponentsInChildren<Button>();
 		foreach (Button b in buttons) {
-			if (b.name == "Male")
-			{
-				maleButton = b;
-			}
-			else if (b.name == "Female")
-			{
-				femaleButton = b;
-			}
+            switch(b.name)
+            {
+                case "Dwarf":
+                    dwarfButton = b;
+                    break;
+                case "Elf":
+                    elfButton = b;
+                    break;
+                case "HumanPeasant":
+                    humanPeasantButton = b;
+                    break;
+                case "HumanRuffian":
+                    humanRuffianButton = b;
+                    break;
+                case "Khalifate":
+                    khalifateButton = b;
+                    break;
+            }
 		}
-		maleButton.onClick.AddListener(setMaleCharacter);
-		femaleButton.onClick.AddListener(setFemaleCharacter);
-	}
+		dwarfButton.onClick.AddListener(setDwarfCharacter);
+        elfButton.onClick.AddListener(setElfCharacter);
+        humanPeasantButton.onClick.AddListener(setHumanPeasantCharacter);
+        humanRuffianButton.onClick.AddListener(setHumanRuffianCharacter);
+        khalifateButton.onClick.AddListener(setKhalifateCharacter);
 
-	private void setMaleCharacter()
+
+    }
+
+    private void setDwarfCharacter()
 	{
-		GameObject.Find("Character").GetComponent<SpriteRenderer>().sprite = maleSprite;
+		GameObject.Find("Character").GetComponent<SpriteRenderer>().sprite = dwarfSprite;
 		getCharacterName();
 	}
 
-	private void setFemaleCharacter()
-	{
-		GameObject.Find("Character").GetComponent<SpriteRenderer>().sprite = femaleSprite;
-		getCharacterName();
-	}
+    private void setElfCharacter()
+    {
+        GameObject.Find("Character").GetComponent<SpriteRenderer>().sprite = elfSprite;
+        getCharacterName();
+    }
 
-	private void getCharacterName()
+    private void setHumanPeasantCharacter()
+    {
+        GameObject.Find("Character").GetComponent<SpriteRenderer>().sprite = peasantSprite; 
+        getCharacterName();
+    }
+
+    private void setHumanRuffianCharacter()
+    {
+        GameObject.Find("Character").GetComponent<SpriteRenderer>().sprite = ruffianSprite;
+        getCharacterName();
+    }
+    private void setKhalifateCharacter()
+    {
+        GameObject.Find("Character").GetComponent<SpriteRenderer>().sprite = khalifateSprite;
+        getCharacterName();
+    }
+
+    private void getCharacterName()
 	{
 		gameObject.GetComponentInChildren<Text>().text = "ENTER CHARACTER NAME";
 		Button[] buttons = gameObject.GetComponentsInChildren<Button>();
