@@ -14,6 +14,8 @@ public class Combat : MonoBehaviour {
     public Sprite peasantSprite;
     public Sprite khalifateSprite;
 
+    Sprite charSprite = GameObject.Find("Character").GetComponent<SpriteRenderer>().sprite;
+
     private GameObject character;
 	#region GameVariables
 	private int monsterLevels = 0;
@@ -248,7 +250,6 @@ public class Combat : MonoBehaviour {
 
     private void setupRace()
     {
-        Sprite charSprite = GameObject.Find("Character").GetComponent<SpriteRenderer>().sprite;
         if (charSprite == dwarfSprite) {
             healthMedium += 5;
             maxHealth += 50;
@@ -453,9 +454,54 @@ public class Combat : MonoBehaviour {
         gameText.text += "\nYou gained " + healthMedium + " health - you now have " + maxHealth + "!";
         gameText.text += "\nYour health potions heal for " + potionGainStandard + " more - they now heal for " + healthPotionHealAmount + "!";
 
-        if(level == 3)
+        if(level == 3 || level == 5 || level == 8 || level == 10 || level == 15)
         {
             chooseClass();
+            if(level == 3)
+            {
+                if (charSprite == ruffianSprite || charSprite == peasantSprite)
+                {
+                    //cavalryman
+                    //dark adept
+                    //fencer
+                    //heavy infantryman
+                    //horseman
+                    //mage
+                    //bowman
+                    //spearman
+                    //footpad
+                    //thug
+                    //sergeant
+                    //thief
+                    //poacher
+                }
+                else if (charSprite == dwarfSprite)
+                {
+                    //fighter
+                    //guardsman
+                    //scout
+                    //thunderer
+                    //ulfserker
+                }
+                else if(charSprite == elfSprite)
+                {
+                    //archer
+                    //fighter
+                    //scout
+                    //shaman
+                }
+                else if(charSprite == khalifateSprite)
+                {
+                    //arif
+                    //hakim
+                    //jundi
+                    //khaiyal
+                    //naffat
+                    //rami
+                }
+            }
+            
+
         }
         
     }
