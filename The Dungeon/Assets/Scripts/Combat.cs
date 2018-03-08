@@ -466,57 +466,95 @@ public class Combat : MonoBehaviour {
         if(level == 3 || level == 5 || level == 8 || level == 10 || level == 15)
         {
             chooseClass();
-            if(level == 3)
-            {
-                if (charSprite == ruffianSprite || charSprite == peasantSprite)
-                {
-                    //cavalryman
-                    //dark adept
-                    //fencer
-                    //heavy infantryman
-                    //horseman
-                    //mage
-                    //bowman
-                    //spearman
-                    //footpad
-                    //thug
-                    //sergeant
-                    //thief
-                    //poacher
-                }
-                else if (charSprite == dwarfSprite)
-                {
-                    //fighter
-                    //guardsman
-                    //scout
-                    //thunderer
-                    //ulfserker
-                }
-                else if(charSprite == elfSprite)
-                {
-                    //archer
-                    //fighter
-                    //scout
-                    //shaman
-                }
-                else if(charSprite == khalifateSprite)
-                {
-                    //arif
-                    //hakim
-                    //jundi
-                    //khaiyal
-                    //naffat
-                    //rami
-                }
-            }
-            
-
         }
         
     }
 
     private void chooseClass()
     {
+        if (level == 3)
+        {
+            if (charSprite == ruffianSprite || charSprite == peasantSprite)
+            {
+                //cavalryman
+                //dark adept
+                //fencer
+                //heavy infantryman
+                //horseman
+                //mage
+                //bowman
+                //spearman
+                //footpad
+                //thug
+                //sergeant
+                //thief
+                //poacher
+            }
+            else if (charSprite == dwarfSprite)
+            {
+                //fighter
+                //guardsman
+                //scout
+                //thunderer
+                //ulfserker
+            }
+            else if (charSprite == elfSprite)
+            {
+                //archer
+                //fighter
+                //scout
+                //shaman
+            }
+            else if (charSprite == khalifateSprite)
+            {
+                //arif
+                //hakim
+                //jundi
+                //khaiyal
+                //naffat
+                //rami
+            }
+        }
+        else if(level ==5)
+        {
+            if (charSprite == dwarfSprite)
+            {
+                //runesmith
+            }
+            else if (charSprite == elfSprite)
+            {
+                //Lord
+            }
+        }
+        else if(level == 8)
+        {
+            if (charSprite == elfSprite)
+            {
+                //lady
+            }
+        }
+        else if(level == 10)
+        {
+            if (charSprite == ruffianSprite || charSprite == peasantSprite)
+            {
+                //royal warrior
+            }
+            else if(charSprite == dwarfSprite)
+            {
+                //arcanister
+            }
+        }
+        else if(level == 12)
+        {
+            
+        }
+        else if(level == 15)
+        {
+            if (charSprite == ruffianSprite || charSprite == peasantSprite)
+            {
+                //elder mage
+            }
+        }
 
     }
 
