@@ -600,10 +600,12 @@ public class Combat : MonoBehaviour {
     private void nextEnemy()
     {
         buttons[0].SetActive(false);
-        bottomRight.gameObject.SetActive(false);
+        bottomRight.gameObject.SetActive(true);
         bottomLeft.gameObject.SetActive(true);
         bottomLeft.GetComponentInChildren<Text>().text = "CONTINUE";
         bottomLeft.onClick.AddListener(spawnNewEnemy);
+        bottomRight.GetComponentInChildren<Text>().text = "VISIT SHOP\nGold = " + playerGold;
+        bottomRight.onClick.AddListener(visitShop);
     }
 
     private void spawnNewEnemy()
@@ -643,5 +645,10 @@ public class Combat : MonoBehaviour {
         enemyDisplay.GetComponentInChildren<Text>().text = enemy.GetComponent<SpriteRenderer>().sprite.name.ToUpper();
         updateSliders();
         enemyName = enemyDisplay.GetComponentInChildren<Text>().text;
+    }
+
+    private void visitShop()
+    {
+        SceneManager.LoadScene("Shop");
     }
 }
