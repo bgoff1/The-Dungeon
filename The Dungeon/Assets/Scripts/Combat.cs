@@ -476,43 +476,71 @@ public class Combat : MonoBehaviour {
         {
             if (charSprite == ruffianSprite || charSprite == peasantSprite)
             {
+                Sprite cavalrymanSprite = (Sprite)Resources.Load("Images/Upgradable PC/Khalifate/Cavalryman", typeof(Sprite));
                 //cavalryman
+                Sprite darkAdeptSprite = (Sprite)Resources.Load("Images/Upgradable PC/Khalifate/Dark Adept", typeof(Sprite));
                 //dark adept
+                Sprite fencerSprite = (Sprite)Resources.Load("Images/Upgradable PC/Khalifate/Fencer", typeof(Sprite));
                 //fencer
+                Sprite heavyInfantrymanSprite = (Sprite)Resources.Load("Images/Upgradable PC/Khalifate/Heavy Infantryman", typeof(Sprite));
                 //heavy infantryman
+                Sprite horsemanSprite = (Sprite)Resources.Load("Images/Upgradable PC/Khalifate/Horseman", typeof(Sprite));
                 //horseman
+                Sprite mageSprite = (Sprite)Resources.Load("Images/Upgradable PC/Khalifate/Mage", typeof(Sprite));
                 //mage
+                Sprite bowmanSprite = (Sprite)Resources.Load("Images/Upgradable PC/Khalifate/Bowman", typeof(Sprite));
                 //bowman
+                Sprite spearmanSprite = (Sprite)Resources.Load("Images/Upgradable PC/Khalifate/Spearman", typeof(Sprite));
                 //spearman
+                Sprite footpadSprite = (Sprite)Resources.Load("Images/Upgradable PC/Khalifate/Footpad", typeof(Sprite));
                 //footpad
+                Sprite thugSprite = (Sprite)Resources.Load("Images/Upgradable PC/Khalifate/Thug", typeof(Sprite));
                 //thug
+                Sprite sergeantSprite = (Sprite)Resources.Load("Images/Upgradable PC/Khalifate/Sergeant", typeof(Sprite));
                 //sergeant
+                Sprite thiefSprite = (Sprite)Resources.Load("Images/Upgradable PC/Khalifate/Thief", typeof(Sprite));
                 //thief
+                Sprite poacherSprite = (Sprite)Resources.Load("Images/Upgradable PC/Khalifate/Poacher", typeof(Sprite));
                 //poacher
             }
             else if (charSprite == dwarfSprite)
             {
                 //fighter
+                Sprite fighterSprite = (Sprite)Resources.Load("Images/Upgradable PC/Dwarves/Dwarvish Fighter", typeof(Sprite));
                 //guardsman
+                Sprite guardsmanSprite = (Sprite)Resources.Load("Images/Upgradable PC/Dwarves/Dwarvish Guardsman", typeof(Sprite));
                 //scout
+                Sprite scoutSprite = (Sprite)Resources.Load("Images/Upgradable PC/Dwarves/Dwarvish Scout", typeof(Sprite));
                 //thunderer
+                Sprite thundererSprite = (Sprite)Resources.Load("Images/Upgradable PC/Dwarves/Dwarvish Thunderer", typeof(Sprite));
                 //ulfserker
+                Sprite ulfserkerSprite = (Sprite)Resources.Load("Images/Upgradable PC/Dwarves/Dwarvish Ulfserker", typeof(Sprite));
             }
             else if (charSprite == elfSprite)
             {
                 //archer
+                Sprite archerSprite = (Sprite)Resources.Load("Images/Upgradable PC/Elves/Elvish Archer", typeof(Sprite));
                 //fighter
+                Sprite fighterSprite = (Sprite)Resources.Load("Images/Upgradable PC/Elves/Elvish Fighter", typeof(Sprite));
                 //scout
+                Sprite scoutSprite = (Sprite)Resources.Load("Images/Upgradable PC/Elves/Elvish Scout", typeof(Sprite));
                 //shaman
+                Sprite shamanSprite = (Sprite)Resources.Load("Images/Upgradable PC/Elves/Elvish Scout", typeof(Sprite));
             }
             else if (charSprite == khalifateSprite)
             {
                 //arif
+                Sprite arifSprite = (Sprite)Resources.Load("Images/Upgradable PC/Khalifate/Arif", typeof(Sprite));
                 //hakim
+                Sprite hakimSprite = (Sprite)Resources.Load("Images/Upgradable PC/Khalifate/Hakim", typeof(Sprite));
                 //jundi
+                Sprite jundiSprite = (Sprite)Resources.Load("Images/Upgradable PC/Khalifate/Jundi", typeof(Sprite));
                 //khaiyal
+                Sprite khaiyalSprite = (Sprite)Resources.Load("Images/Upgradable PC/Khalifate/Khaiyal", typeof(Sprite));
                 //naffat
+                Sprite naffatSprite = (Sprite)Resources.Load("Images/Upgradable PC/Khalifate/Naffat", typeof(Sprite));
                 //rami
+                Sprite ramiSprite = (Sprite)Resources.Load("Images/Upgradable PC/Khalifate/Rami", typeof(Sprite));
             }
         }
         else if(level ==5)
@@ -520,10 +548,12 @@ public class Combat : MonoBehaviour {
             if (charSprite == dwarfSprite)
             {
                 //runesmith
+                Sprite runesmithSprite = (Sprite)Resources.Load("Images/Upgradable PC/Dwarf/Dwarvish Runesmith", typeof(Sprite));
             }
             else if (charSprite == elfSprite)
             {
                 //Lord
+                Sprite lordSprite = (Sprite)Resources.Load("Images/Upgradable PC/Elves/Elvish Lord", typeof(Sprite));
             }
         }
         else if(level == 8)
@@ -531,6 +561,7 @@ public class Combat : MonoBehaviour {
             if (charSprite == elfSprite)
             {
                 //lady
+                Sprite ladySprite = (Sprite)Resources.Load("Images/Upgradable PC/Elves/Elvish Lady", typeof(Sprite));
             }
         }
         else if(level == 10)
@@ -538,21 +569,24 @@ public class Combat : MonoBehaviour {
             if (charSprite == ruffianSprite || charSprite == peasantSprite)
             {
                 //royal warrior
+                Sprite royalSprite = (Sprite)Resources.Load("Images/Upgradable PC/Humans/Royal Warrior", typeof(Sprite));
             }
             else if(charSprite == dwarfSprite)
             {
                 //arcanister
+                Sprite arcanisterSprite = (Sprite)Resources.Load("Images/Upgradable PC/Dwarves/Dwarvish Arcanister", typeof(Sprite));
             }
         }
         else if(level == 12)
         {
-            
+            // Does something needs to be here?
         }
         else if(level == 15)
         {
             if (charSprite == ruffianSprite || charSprite == peasantSprite)
             {
                 //elder mage
+                Sprite elderMageSprite = (Sprite)Resources.Load("Images/Upgradable PC/Humans/Elder Mage", typeof(Sprite));
             }
         }
 
