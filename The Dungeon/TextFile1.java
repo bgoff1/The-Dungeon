@@ -74,6 +74,8 @@ public class TextBased {
         
         //</editor-fold>
 
+        //something
+
         //<editor-fold desc="DifficultyVariables">
         static int healthPotionHealAmount = 30;
         static int healthPotionDropChance = 35; //Percentage
